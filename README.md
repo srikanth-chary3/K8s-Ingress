@@ -1,2 +1,2 @@
 # Ingress
-Kubernetes Ingress
+Kubernetes Ingress.
