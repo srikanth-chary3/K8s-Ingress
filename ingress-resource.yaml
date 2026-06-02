@@ -2,3 +2,8 @@ apiVersion: network.k8s.io/
 kind: Ingress
 metadata:
   name: K8s-Ingress
+spec:
+  conatiners:
+    - name: app-1
+      image: srikanthsuthari/app1:v1
+      
