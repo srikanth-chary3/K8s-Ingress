@@ -6,4 +6,4 @@ spec:
   conatiners:
     - name: app-1
       image: srikanthsuthari/app1:v1
-      
+  
