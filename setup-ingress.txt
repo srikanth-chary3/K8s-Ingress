@@ -56,7 +56,7 @@ kubectl get pods -n kube-system
 ```
 
 
-Some of the most important annotations used with Ingress
+Some of the most important annotations used with Ingress also with Pods or Deployments etc.
 
 "annotations:
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
