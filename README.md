@@ -8,4 +8,4 @@ Kubernetes Ingress.
 - the Kubernetes Service
 - the underlying Application Pods
 
-### The issues i faced while setting up an ingress controller with resource
+#### The issues i faced while setting up an ingress controller with resource and accessing different services under the ingress
