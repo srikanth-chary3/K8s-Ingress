@@ -11,3 +11,4 @@ Kubernetes Ingress.
 #### The issues i faced while setting up an ingress controller with resource and accessing different services under the ingress
 
 - I could not be able to access the service like app1.srikanth-suthari.me
+- All the required resources got created but there may an issue with the Role access with the OIDC provider between the loadbalancer and the domain name
