@@ -99,4 +99,4 @@ spec:
 
 ---
 every file must have a purpose
-annotations are must if you use external resources.
+annotations are must if you use external resources, like loadbalancers etc..
