@@ -33,7 +33,7 @@ kind: Service
 metadata:
   name: app1
 spec:
-  type: ClusterIP # Explicitly state ClusterIP for 'ip' target-type
+  type: NodePort # Explicitly state ClusterIP for 'ip' target-type
   selector:
     purpose: ingress-demo
     project: roboshop
