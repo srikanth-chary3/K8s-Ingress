@@ -49,7 +49,7 @@ metadata:
   name: app1
   annotations:
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 443}]'
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-2:772706200515:certificate/8f775f01-1462-4386-b783-696e78f72fc7
+    alb.ingress.kubernetes.io/certificate-arn: # change the arn according to the certificate
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/tags: Environment=dev,Project=roboshop
     alb.ingress.kubernetes.io/target-type: ip
