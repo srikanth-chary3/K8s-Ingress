@@ -48,7 +48,7 @@ kind: Ingress
 metadata:
   name: app1
   annotations:
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 443}]'
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 443}]' #Use this when you use SSL certificates
     alb.ingress.kubernetes.io/certificate-arn: # change the arn according to the certificate
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/tags: Environment=dev,Project=roboshop
