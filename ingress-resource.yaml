@@ -1,9 +1,25 @@
-apiVersion: network.k8s.io/
+
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: K8s-Ingress
+  name: app1
+  annotations:
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 443}]' #Use this when you use SSL certificates
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-2:173237057266:certificate/b54c81fe-a135-43e3-a2f9-4f5e4c09720d # change the arn according to the certificate
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/tags: Environment=dev,Project=roboshop
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: roboshop
 spec:
-  conatiners:
-    - name: app-1
-      image: srikanthsuthari/app1:v1
-  
+  ingressClassName: alb
+  rules:
+  - host: "app1.srikanth-suthari.me"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: app1
+            port:
+              number: 80
