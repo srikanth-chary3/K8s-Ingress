@@ -1,0 +1,112 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app1-deployment
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: roboshop-app1
+  template:
+    metadata:
+      labels:
+        app: roboshop-app1
+    spec:
+      containers:
+      - name: app1-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app1-service
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: roboshop-app1
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app2-deployment
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: roboshop-app2
+  template:
+    metadata:
+      labels:
+        app: roboshop-app2
+    spec:
+      containers:
+      - name: app2-container
+        image: httpd:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app2-service
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: roboshop-app2
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: roboshop-ingress
+  namespace: default
+  annotations:
+    # 1. Essential: Deploys a public-facing load balancer
+    alb.ingress.kubernetes.io/scheme: internet-facing
+
+    # 2. Essential: Targets Pod IPs directly via AWS VPC CNI (Bypasses NodePort)
+    alb.ingress.kubernetes.io/target-type: ip
+
+    # 3. Optional but highly recommended: Opens port 80
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+
+    # 4. Optional: If you want to attach an ACM SSL Certificate later, uncomment below:
+    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    # alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-2:123456789012:certificate/your-uuid
+    # alb.ingress.kubernetes.io/ssl-redirect: "443"
+spec:
+  ingressClassName: alb
+  rules:
+    - host: app1.yourdomain.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app1-service
+                port:
+                  number: 80
+    - host: app2.yourdomain.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app2-service
+                port:
+                  number: 80
