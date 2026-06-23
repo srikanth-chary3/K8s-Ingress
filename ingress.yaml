@@ -81,12 +81,14 @@ metadata:
     alb.ingress.kubernetes.io/target-type: ip
 
     # 3. Optional but highly recommended: Opens port 80
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
 
     # 4. Optional: If you want to attach an ACM SSL Certificate later, uncomment below:
-    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
-    # alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-2:123456789012:certificate/your-uuid
-    # alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-2:173237057266:certificate/b54c81fe-a135-43e3-a2f9-4f5e4c09720d
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+
 spec:
   ingressClassName: alb
   rules:
