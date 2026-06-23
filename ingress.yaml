@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: app1-container
-        image: nginx:latest
+        image: srikanthsuthari/app1:v1
         ports:
         - containerPort: 80
 ---
@@ -50,7 +50,7 @@ spec:
     spec:
       containers:
       - name: app2-container
-        image: httpd:latest
+        image: srikanthsuthari/app1:v1
         ports:
         - containerPort: 80
 ---
