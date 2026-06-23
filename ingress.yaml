@@ -50,7 +50,7 @@ spec:
     spec:
       containers:
       - name: app2-container
-        image: srikanthsuthari/app1:v1
+        image: srikanthsuthari/app2:v1
         ports:
         - containerPort: 80
 ---
