@@ -16,6 +16,7 @@ spec:
       containers:
       - name: app1-container
         image: srikanthsuthari/app1:v1
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 ---
@@ -51,6 +52,7 @@ spec:
       containers:
       - name: app2-container
         image: srikanthsuthari/app2:v1
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 ---
