@@ -99,7 +99,7 @@ metadata:
     alb.ingress.kubernetes.io/ssl-redirect: "443"
 
     # 3. Attach your validated ACM Certificate
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-2:173237057266:certificate/b54c81fe-a135-43e3-a2f9-4f5e4c09720d
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-2:173237057266:certificate/fb060e09-8963-4c6b-b510-6fa9aa751394
 
     # 4. Standard AWS infrastructure setup
     alb.ingress.kubernetes.io/scheme: internet-facing
