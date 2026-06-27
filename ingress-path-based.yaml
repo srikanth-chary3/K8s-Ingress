@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app1
+  namespace: default
+  labels:
+    purpose: ingress-demo
+    project: roboshop
+    app: app1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      purpose: ingress-demo
+      project: roboshop
+      app: app1
+  template:
+    metadata:
+      labels:
+        purpose: ingress-demo
+        project: roboshop
+        app: app1
+    spec:
+      containers:
+      - name: app1
+        image: srikanthsuthari/app1:v1
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app1-service
+  namespace: default
+spec:
+  selector:
+    purpose: ingress-demo
+    project: roboshop
+    app: app1
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app2
+  namespace: default
+  labels:
+    purpose: ingress-demo
+    project: roboshop
+    app: app2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      purpose: ingress-demo
+      project: roboshop
+      app: app2
+  template:
+    metadata:
+      labels:
+        purpose: ingress-demo
+        project: roboshop
+        app: app2
+    spec:
+      containers:
+      - name: app2
+        image: srikanthsuthari/app2:v1  # Your second application image
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app2-service
+  namespace: default
+spec:
+  selector:
+    purpose: ingress-demo
+    project: roboshop
+    app: app2
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: roboshop-path-ingress
+  namespace: default
+  annotations:
+    # 1. Open both 80 and 443 with correct protocols
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+
+    # 2. Automatically bounce port 80 traffic up to HTTPS 443
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+
+    # 3. Attach your validated ACM Certificate
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-2:173237057266:certificate/b54c81fe-a135-43e3-a2f9-4f5e4c09720d
+
+    # 4. Standard AWS infrastructure setup
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/tags: Environment=dev,Project=roboshop
+spec:
+  ingressClassName: alb
+  rules:
+  - host: "roboshop.srikanth-suthari.me" # Single domain name for everything
+    http:
+      paths:
+      - pathType: Prefix
+        path: /app1 # Routes traffic hitting roboshop.srikanth-suthari.me/app1
+        backend:
+          service:
+            name: app1-service
+            port:
+              number: 80
+      - pathType: Prefix
+        path: /app2 # Routes traffic hitting roboshop.srikanth-suthari.me/app2
+        backend:
+          service:
+            name: app2-service
+            port:
+              number: 80
